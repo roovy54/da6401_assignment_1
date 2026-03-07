@@ -44,7 +44,7 @@ def parse_arguments():
     parser.add_argument("-wd", "--weight_decay", type=float, default=0.0)
     parser.add_argument("-w_p", "--wandb_project", type=str, default="da6401_assignment_1")
     parser.add_argument("-w_x", "--experiment_name", type=str)
-    parser.add_argument("-msp", "--model_save_path", type=str, default="models/")
+    parser.add_argument("-msp", "--model_save_path", type=str, default="best_model.npz")
 
     return parser.parse_args()
 

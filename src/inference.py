@@ -59,12 +59,12 @@ def parse_arguments():
     parser.add_argument("-o", "--optimizer", type=str, default="rmsprop")
     parser.add_argument("-nhl", "--num_layers", type=int)
     parser.add_argument("-sz", "--hidden_size", type=int, nargs="+")
-    parser.add_argument("-a", "--activation", type=str, nargs="+")
+    parser.add_argument("-a", "--activation", type=str)
     parser.add_argument("-l", "--loss", type=str, default="cross_entropy")
     parser.add_argument("-w_i", "--weight_init", type=str, default="xavier")
     parser.add_argument("-wd", "--weight_decay", type=float, default=0.0)
     parser.add_argument("-w_p", "--wandb_project", type=str, default="da6401_assignment_1")
-    parser.add_argument("-msp", "--model_save_path", type=str)
+    parser.add_argument("-msp", "--model_save_path", type=str, default="best_model.npz")
     
     return parser.parse_args()
 
