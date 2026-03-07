@@ -1,0 +1,11 @@
+# Models folder inside notebooks
+notebooks/models/
+
+# WandB folder inside notebooks
+notebooks/wandb/
+
+# Python cache anywhere
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
