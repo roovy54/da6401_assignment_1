@@ -73,6 +73,8 @@ def main():
 
     wandb.init(project=args.wandb_project, name=args.experiment_name)
 
+
+    # needed for performing wandb sweeps
     # config = wandb.config
     # args.optimizer = config.optimizer
     # args.learning_rate = config.learning_rate
@@ -96,10 +98,6 @@ def main():
     # Initialize and train the neural network
     model = NeuralNetwork(args)
     model.train(X_train, y_train, args)
-
-    # # Evaluate the model on the test set
-    # accuracy = model.evaluate(X_test, y_test)
-    # print("Model Evaluation Accuracy:", accuracy)
 
     # save the trained model weights to disk
     save_dir = args.model_save_path

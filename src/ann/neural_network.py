@@ -113,7 +113,7 @@ class NeuralNetwork:
         """
         Update weights using the optimizer.
         """
-
+        # update weights for each layer using the optimizer and the computed gradients
         self.optimizer.step(self.layers)
     
     def train(self, X_train, y_train, args):
@@ -188,6 +188,7 @@ class NeuralNetwork:
                 self.backward(y_batch, logits)
                 self.update_weights()
 
+                # commented out for now to avoid cluttering logs
                 # if iteration < MAX_ITER:
                 #     layer_grad = self.grad_W[-(LOG_LAYER + 1)]  # shape: (in, out)
                 #     neuron_log = {"iteration": iteration}
@@ -303,6 +304,8 @@ class NeuralNetwork:
         return loss, accuracy, precision, recall, f1
     
     def get_weights(self):
+
+        # Return a dictionary of weights and biases for all layers, keyed by "W0", "b0", "W1", "b1", etc.
         d = {}
         for i, layer in enumerate(self.layers):
             d[f"W{i}"] = layer.W.copy()
@@ -310,6 +313,8 @@ class NeuralNetwork:
         return d
 
     def set_weights(self, weight_dict):
+
+        # Set weights and biases for all layers from a dictionary, keyed by "W0", "b0", "W1", "b1", etc.
         for i, layer in enumerate(self.layers):
             w_key = f"W{i}"
             b_key = f"b{i}"

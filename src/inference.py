@@ -9,29 +9,6 @@ from utils.data_loader import load_dataset
 from ann.neural_network import NeuralNetwork
 from sklearn.metrics import precision_score, recall_score, f1_score
 
-# def parse_arguments():
-#     """
-#     Parse command-line arguments for inference.
-    
-#     TODO: Implement argparse with:
-#     - model_path: Path to saved model weights(do not give absolute path, rather provide relative path)
-#     - dataset: Dataset to evaluate on
-#     - batch_size: Batch size for inference
-#     - hidden_layers: List of hidden layer sizes
-#     - num_neurons: Number of neurons in hidden layers
-#     - activation: Activation function ('relu', 'sigmoid', 'tanh')
-#     """
-#     parser = argparse.ArgumentParser(description='Run inference on test set')
-    
-#     parser.add_argument("-m", "--model_path", type=str)
-#     parser.add_argument("-d", "--dataset", type=str, default="mnist")
-#     parser.add_argument("-b", "--batch_size", type=int, default=64)
-#     parser.add_argument("-nhl", "--num_layers", type=int)
-#     parser.add_argument("-sz", "--hidden_size", type=int, nargs="+")
-#     parser.add_argument("-a", "--activation", type=str, nargs="+")
-    
-#     return parser.parse_args()
-
 def parse_arguments():
     """
     Parse command-line arguments for inference
@@ -129,9 +106,6 @@ def main():
 
     # Evaluate model
     results = evaluate_model(model, X_test, y_test)
-
-    # print(results)
-    # print("Evaluation complete!")
 
     return results
 
