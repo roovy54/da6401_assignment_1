@@ -158,11 +158,11 @@ class NeuralNetwork:
         all_train_preds = []
         all_train_labels = []
 
-        # Experiment 2.9 tracking variables
-        iteration = 0
-        LOG_NEURONS = 5       
-        LOG_LAYER   = 0      
-        MAX_ITER    = 50      
+        # # Experiment 2.9 tracking variables
+        # iteration = 0
+        # LOG_NEURONS = 5       
+        # LOG_LAYER   = 0      
+        # MAX_ITER    = 50      
 
         # Training loop
         for epoch in range(self.epochs):
@@ -188,17 +188,17 @@ class NeuralNetwork:
                 self.backward(y_batch, logits)
                 self.update_weights()
 
-                if iteration < MAX_ITER:
-                    layer_grad = self.grad_W[-(LOG_LAYER + 1)]  # shape: (in, out)
-                    neuron_log = {"iteration": iteration}
-                    for n in range(LOG_NEURONS):
-                        # mean absolute gradient across all incoming weights for neuron n
-                        neuron_log[f"neuron_{n}_grad_layer{LOG_LAYER}"] = float(
-                            np.mean(np.abs(layer_grad[:, n]))
-                        )
-                    wandb.log(neuron_log)
+                # if iteration < MAX_ITER:
+                #     layer_grad = self.grad_W[-(LOG_LAYER + 1)]  # shape: (in, out)
+                #     neuron_log = {"iteration": iteration}
+                #     for n in range(LOG_NEURONS):
+                #         # mean absolute gradient across all incoming weights for neuron n
+                #         neuron_log[f"neuron_{n}_grad_layer{LOG_LAYER}"] = float(
+                #             np.mean(np.abs(layer_grad[:, n]))
+                #         )
+                #     wandb.log(neuron_log)
 
-                iteration += 1
+                # iteration += 1
 
             train_loss = epoch_loss / num_batches
             train_acc = correct_predictions / total_samples
