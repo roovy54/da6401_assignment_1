@@ -73,8 +73,10 @@ def load_model(model_path):
     """
     Load trained model from disk.
     """
-    data = np.load(model_path, allow_pickle=True).item()
-    return data
+    data = np.load(model_path, allow_pickle=True)
+
+    params = {key: data[key] for key in data.files}
+    return params
 
 
 
@@ -88,19 +90,8 @@ def evaluate_model(model, X_test, y_test):
     # Forward pass
     logits = model.forward(X_test)
 
-    # Predictions
-    y_pred = np.argmax(logits, axis=1)
-
     # Loss
-    loss = model.compute_loss(logits, y_test)
-
-    # Accuracy
-    accuracy = np.mean(y_pred == y_test)
-
-    # Precision, Recall, F1 Score
-    precision = precision_score(y_test, y_pred, average='macro')
-    recall = recall_score(y_test, y_pred, average='macro')
-    f1 = f1_score(y_test, y_pred, average='macro')
+    loss, accuracy, precision, recall, f1 = model.evaluate(X_test, y_test)
 
     return {
         "logits": logits,
@@ -139,7 +130,8 @@ def main():
     # Evaluate model
     results = evaluate_model(model, X_test, y_test)
 
-    print("Evaluation complete!")
+    # print(results)
+    # print("Evaluation complete!")
 
     return results
 
