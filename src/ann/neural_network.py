@@ -50,7 +50,7 @@ class NeuralNetwork:
                 NeuralLayer(
                     layer_sizes[i],
                     layer_sizes[i+1],
-                    activation=cli_args.activation[i],
+                    activation=cli_args.activation,
                     weight_init=cli_args.weight_init
                 )
             )
