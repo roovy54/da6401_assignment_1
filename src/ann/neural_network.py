@@ -41,9 +41,9 @@ class NeuralNetwork:
             self.optimizer = RMSProp(cli_args.learning_rate, weight_decay=cli_args.weight_decay)
 
         # create layers based on input size, hidden layer sizes, output size, activation functions, and weight initialization method
-        layer_sizes = [cli_args.input_size] + \
+        layer_sizes = [784] + \
                       cli_args.hidden_size + \
-                      [cli_args.output_size]
+                      [10]
         
         for i in range(len(layer_sizes) - 2):
             self.layers.append(

@@ -45,8 +45,7 @@ def parse_arguments():
     parser.add_argument("-w_p", "--wandb_project", type=str, default="da6401_assignment_1")
     parser.add_argument("-w_x", "--experiment_name", type=str)
     parser.add_argument("-msp", "--model_save_path", type=str, default="models/")
-    parser.add_argument("-i", "--input_size", type=int, default=784)
-    parser.add_argument("-o_s", "--output_size", type=int, default=10)
+
     return parser.parse_args()
 
 
