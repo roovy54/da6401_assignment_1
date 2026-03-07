@@ -1,24 +1,12 @@
-# Assignment 1: Multi-Layer Perceptron (MLP) for Image Classification
+# DA6401 Assignment 1: Multi-Layer Perceptron (MLP) for Image Classification
 
 ## Overview
 
-This repository contains an implementation of a Multi-Layer Perceptron (MLP) built from scratch using NumPy. The goal is to learn the fundamentals of forward/backward propagation, build layers/activations/optimizers manually, and train an MLP on image classification datasets such as MNIST or Fashion-MNIST.
+This repository contains an implementation of a configurable, modular Multi-Layer Perceptron (MLP) using only NumPy. It contains the complete training pipeline from forward propagation to various optimization strategies to classify the MNIST and Fashion-MNIST datasets.
 
-Key features
-- Custom neural network implementation under `src/ann/` (layers, activations, objectives, optimizers)
-- Training and inference scripts (`src/train.py`, `src/inference.py`)
-- Example notebooks (training/evaluation and Weights & Biases experiments)
-- Example model artifacts in `src/` (e.g., `best_model.npz`, `best_model.npy`) and a best config JSON
-
-## Table of contents
-
-- [Requirements](#requirements)
-- [Install](#install)
-- [Quick start](#quick-start)
-- [Project structure](#project-structure)
-- [Usage details](#usage-details)
-- [Notebooks & experiments](#notebooks--experiments)
-- [Notes, assumptions and next steps](#notes-assumptions-and-next-steps)
+**Links:**  
+- [WandB Report](https://wandb.ai/me23b049-indian-institute-of-technology-madras/da6401_assignment_1/reports/DA6401-Assignment-1-MLP-for-Image-Classification---VmlldzoxNjEyOTExMA?accessToken=syzz74y6qnjdu2u1suhu5q891ph95bfm0gpq16829ev9bmwxgtqiut2pqmmp1bxf)  
+- [GitHub Repository](https://github.com/roovy54/da6401_assignment_1)
 
 ## Requirements
 
@@ -45,25 +33,65 @@ cd da6401_assignment_1
 pip install -r requirements.txt
 ```
 
+
 ## Quick start
 
-- To train a model (basic):
+### Train a model (with full parameters)
 
 ```bash
-python src/train.py
+python src/train.py \
+  -d mnist \
+  -e 10 \
+  -b 64 \
+  -lr 0.001 \
+  -o rmsprop \
+  -nhl 3 \
+  -sz 128 128 128 \
+  -a relu \
+  -l cross_entropy \
+  -w_i xavier \
+  -wd 0.0 \
+  -w_p da6401_assignment_1 \
+  -w_x experiment_1 \
+  -msp best_model.npy
 ```
 
-- To run inference on saved model files:
+| Argument | Description                                                  |
+| -------- | ------------------------------------------------------------ |
+| `-d`     | Dataset to use (e.g., `mnist`)                               |
+| `-e`     | Number of training epochs                                    |
+| `-b`     | Batch size for training                                      |
+| `-lr`    | Learning rate                                                |
+| `-o`     | Optimizer: `sgd`, `momentum`, `nag`, `rmsprop`               |
+| `-nhl`   | Number of hidden layers                                      |
+| `-sz`    | Hidden layer sizes (space-separated). Example: `128 128 128` |
+| `-a`     | Activation functions per layer. Example: `relu`              |
+| `-l`     | Loss function. Example: `cross_entropy`                      |
+| `-w_i`   | Weight initialization method. Example: `xavier`              |
+| `-wd`    | Weight decay (regularization)                                |
+| `-w_p`   | WandB project name for logging                               |
+| `-msp`   | Path to save the trained model (use `.npy`)                  |
+
+
+### Run inference 
 
 ```bash
-python src/inference.py
+python src/inference.py \
+  --model_path best_model.npy \
+  --dataset mnist
 ```
 
-Notes: The example scripts (`train.py`, `inference.py`) may accept command-line arguments (dataset choice, hyperparameters, paths). See the top of each script or run `python src/train.py --help` / `python src/inference.py --help` for available flags.
+The inference script evaluates the saved model on the test dataset and reports:
+
+- Loss
+- Accuracy
+- Precision
+- Recall
+- F1-score
+
+This helps you measure the model’s generalization on unseen data.
 
 ## Project structure
-
-Top-level layout
 
 ```
 da6401_assignment_1/
@@ -74,8 +102,8 @@ da6401_assignment_1/
 │   │   ├── activations.py
 │   │   ├── neural_layer.py
 │   │   ├── neural_network.py
-	 │   ├── objective_functions.py
-	 │   └── optimizers.py
+│   │   ├── objective_functions.py
+│   │   └── optimizers.py
 │   ├── plots/              # (plot utilities / saved figures)
 │   ├── utils/
 │   │   └── data_loader.py  # dataset loading utilities
@@ -101,63 +129,11 @@ Model artifacts
 - `src/best_model.npz`, `src/best_model.npy`: example saved model weights/checkpoints
 - `src/best_config.json`: hyperparameters used for the saved best model
 
-## Usage details
-
-1) Training
-
-- Basic (defaults):
-
-```bash
-python src/train.py
-```
-
-- Common flags you may want to change (check `train.py` for exact names):
-	- dataset (mnist / fashion-mnist)
-	- learning rate, optimizer, batch size, epochs
-	- output/model save path
-
-Training produces saved model files (e.g., `.npz` or `.npy`) and a config JSON with the hyperparameters.
-
-2) Inference / Evaluation
-
-- Basic usage:
-
-```bash
-python src/inference.py --model src/best_model.npz
-```
-
-- The `inference.py` script typically supports options to point to a model file, specify an input image or dataset split, and choose output formats. Check the script header or `--help` for supported options.
-
-3) Visualizing / Notebooks
+## Visualizing / Notebooks
 
 - `notebooks/wandb_demo.ipynb` and `notebooks/wandb_report.ipynb` contain experiment demos and reports. Open them in JupyterLab / Jupyter Notebook.
 - `notebooks/sweep.yaml` is a Weights & Biases sweep configuration for hyperparameter tuning.
 
-## Notebooks & experiments
 
-- To run the notebooks, start Jupyter in the repo root:
 
-```bash
-jupyter lab
-```
 
-- If you use Weights & Biases (wandb), the notebooks and `train.py` may log runs to your account. Configure your WandB API key before running experiments (see wandb docs).
-
-## Notes, assumptions and next steps
-
-Assumptions made while writing this README:
-- The `train.py` and `inference.py` scripts provide CLI flags (or are easy to edit) to point to dataset/model paths. If they require a different interface, inspect those files for exact usage.
-- Model files are stored in `src/` for convenience in this repo; in a production workflow you'd place them under `models/`.
-
-Recommended next steps / low-risk improvements:
-- Add `--help` output to `train.py` and `inference.py` if missing (argparse)
-- Add a small `examples/` directory with example commands and sample inputs for inference
-- Add a short CONTRIBUTING.md describing how to run tests and extend the project
-
-## Contact / Support
-
-If this is your course assignment, follow course submission instructions. For issues with the code, open an issue or contact the project owner.
-
----
-
-Good luck and enjoy experimenting with your MLP!
